@@ -1,0 +1,231 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+*{
+margin:0;
+padding:0;
+}
+#表格显示区域{
+margin: 100px auto;
+width: 500px;
+position: relative;
+}
+table{
+width: 500px;
+border-collapse: collapse;
+border-spacing: 0;
+table-layout: fixed;
+}
+th{
+background: #ebf3f0;
+font-size: 13px;
+color:#000002;
+}
+th,td{
+text-align: center;
+border: 1px solid #dcdbdb;
+padding: 2px 6px;
+}
+#方块{position:absolute;display:none;opacity:0.9;background:#fff;text-align: center;top:0;}
+</style>
+</head>
+<body>
+<div id="表格显示区域"> 
+<table id="表格">
+<tr>
+<th onclick="排序('表格',0)">
+序列
+</th>
+<th onclick="排序('表格',1)">
+名称
+</th>
+<th onclick="排序('表格',2)">
+数量
+</th>
+<th onclick="排序('表格',3)">
+单价(Q点)
+</th>
+<th onclick="排序('表格',4)">
+总计(Q点)
+</th>
+</tr>  
+<tr>
+<td>1</td>
+<td>农场话费A</td>
+<td>2</td>
+<td>50</td>
+<td>100</td>
+</tr>
+<tr>
+<td>2</td>
+<td>飞车道具C</td>
+<td>1</td>
+<td>80</td>
+<td>80</td>
+</tr>
+<tr>
+<td>3</td>
+<td>空间K</td>
+<td>1</td>
+<td>120</td>
+<td>120</td>
+</tr>
+<tr>
+<td>4</td>
+<td>农场狗粮C</td>
+<td>4</td>
+<td>60</td>
+<td>240</td>
+</tr>
+<tr>
+<td>5</td>
+<td>音速种子</td>
+<td>2</td>
+<td>110</td>
+<td>220</td>
+</tr>
+<tr>
+<td>6</td>
+<td>农场化肥D</td>
+<td>5</td>
+<td>60</td>
+<td>300</td>
+</tr>
+<tr>
+<td>7</td>
+<td>AVA装扮C</td>
+<td>1</td>
+<td>300</td>
+<td>300</td>
+</tr>
+<tr>
+<td>8</td>
+<td>三国道具C</td>
+<td>15</td>
+<td>60</td>
+<td>900</td>
+</tr>
+<tr>
+<td>9</td>
+<td>DNF道具B</td>
+<td>4</td>
+<td>300</td>
+<td>1200</td>
+</tr>
+<tr>
+<td>10</td>
+<td>农场化肥H</td>
+<td>6</td>
+<td>80</td>
+<td>120</td>
+</tr>
+<tr>
+<td>11</td>
+<td>农场化肥B</td>
+<td>1</td>
+<td>80</td>
+<td>80</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Q宠元宝</td>
+<td>100</td>
+<td>1</td>
+<td>100</td>
+</tr>
+<tr>
+<td>13</td>
+<td>三国道具K</td>
+<td>9</td>
+<td>20</td>
+<td>180</td>
+</tr>
+</table>
+<div id="方块"></div>
+</div>
+<script>
+function 排序(表格,索引){
+var 表格=document.getElementById(表格),
+数据区域=[];
+for (var i = 1; i <表格.rows.length; i++) 数据区域.push(表格.rows[i]);
+if(表格.sortCol==索引)数据区域.reverse();
+else{
+数据区域.sort(function(tr1,tr2){
+var value1 = tr1.cells[索引].innerHTML; 
+var value2 = tr2.cells[索引].innerHTML; 
+if(!isNaN(value1)&&!isNaN(value2)) return value1-value2;
+else return value1.localeCompare(value2);           
+});
+}
+var 片段 = document.createDocumentFragment();
+for (var i = 0; i <数据区域.length; i++) 片段.appendChild(数据区域[i]);
+表格.appendChild(片段);
+表格.sortCol=索引;
+}
+(function 拖动(表格){
+var 表格显示区域=document.getElementById("表格显示区域"),
+表格=document.getElementById(表格),
+表头=表格.getElementsByTagName("th"),
+表数据=表格.getElementsByTagName("td"),
+方块=document.getElementById("方块"),
+arrn=[];
+for (var i = 0; i < 表数据.length; i++) {
+表数据[i].onmousedown=function(事件){
+var 事件=事件||window.event,
+目标 = 事件.target||事件.srcElement,
+目标宽 = 目标.offsetWidth,
+最大left=表格显示区域.offsetWidth-目标宽,
+行数据=表格.rows,
+被选中对象=this,
+cdisX=事件.clientX-表格显示区域.offsetLeft-目标.offsetLeft;
+for (var i = 0; i < 行数据.length; i++) {
+var 移动列=document.createElement("p");
+移动列.innerHTML=行数据[i].cells[this.cellIndex].innerHTML;  
+方块.appendChild(移动列);
+}
+for (var i = 0; i < 表头.length; i++) arrn.push(表头[i].offsetLeft);
+方块.style.display="block";
+方块.style.width=目标宽+"px";
+方块.style.left=目标.offsetLeft+"px";
+//未完成 还有事件没写。
+document.onmousemove=function(事件){
+var 事件=事件||window.event,
+目标 = 事件.target||事件.srcElement,
+目标宽 = 目标.offsetWidth;
+方块.style.top=0;
+方块.style.left=事件.clientX-表格显示区域.offsetLeft-cdisX+"px";
+if(方块.offsetLeft>最大left)方块.style.left=最大left+"px";
+else if(方块.offsetLeft<0)方块.style.left=0;       
+document.onselectstart=function(){return false};     
+window.getSelection ? window.getSelection().removeAllRanges() : doc.selection.empty();              
+}
+document.onmouseup=function(事件){
+var 事件=事件||window.event,
+opr=方块.getElementsByTagName("p"),
+oboxl=方块.offsetLeft+cdisX;
+for (var i = 0; i < arrn.length; i++) {
+if(arrn[i]<oboxl){
+var index=i;
+}
+}
+for (var i = 0; i < 行数据.length; i++) {
+行数据[i].cells[被选中对象.cellIndex].innerHTML="";
+行数据[i].cells[被选中对象.cellIndex].innerHTML=行数据[i].cells[index].innerHTML;
+行数据[i].cells[index].innerHTML="";
+行数据[i].cells[index].innerHTML=opr[i].innerHTML;
+}
+方块.innerHTML="";
+arrn.splice(0,arrn.length);
+方块.style.display="none";
+document.onmousemove=null; 
+document.onmouseup=null;
+document.onselectstart=function(){return false};     
+}
+this.onclick=null;
+}
+}        
+})("表格");
+</script>
+</body>
+</html>
