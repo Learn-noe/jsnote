@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+<script  type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/handlebars.js/4.0.11/handlebars.min.js"></script>
+</head>
+<body>
+<!-- 	<div class="demo">
+		<h1>{{name}}</h1>
+		<p>{{content}}</p>
+	</div> -->
+	<script type="text/x-handlebars-template" id="tpl">
+	<div class="demo">
+		{{#each shop}}
+			<ul style="float: left;">
+			<li><h2>{{this.name}}</h2></li>
+			<li><h3>{{this.price}}</h3></li>
+			</ul>
+		{{/each}}
+	</div>
+
+</script>
+<script type="text/javascript">
+	//用jquery获取模板
+	// var tpl=$("#tpl").html();
+	//原生方法
+	var source=document.getElementById('tpl').innerHTML;
+	//预编译模板
+	var template=Handlebars.compile(source);
+	//模拟json数据
+
+/*	var context={name:"peipei",content:"i love"};*/
+	var context = {
+		shop: [
+				{name: '锅', price: 200},
+	   			{name: '铲子', price: 200},
+				{name: '碗', price: 200}
+			]
+	}
+	//匹配json内容
+var html=template(context);
+
+	//输入模板
+	$("body").html(html);
+</script>
+
+</body>
+
+
+</html>

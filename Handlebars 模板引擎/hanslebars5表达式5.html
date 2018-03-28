@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>handlebars路径的访问</title>
+<script  type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/handlebars.js/4.0.11/handlebars.min.js"></script>
+</head>
+<body>
+
+	<script type="text/x-handlebars-template" id="tpl">
+	<!-- <h1> {{author.id}}</h1>	
+	<h1> {{author.name}}</h1> -->
+	{{#with person}}
+		{{! 原生方法}}
+		<h1>{{../company.name}}</h1>
+		{{../person.name}}
+		{{/with}}
+</script>
+<script type="text/javascript">
+
+	//用jquery获取模板
+	// var tpl=$("#tpl").html();
+	//原生方法
+	var source=document.getElementById('tpl').innerHTML;
+	//预编译模板
+	var template=Handlebars.compile(source);
+	//模拟json数据
+	// var list = {
+	// 	title:"My first blog post",
+	// 	author:{
+	// 	id:"50",
+	// 	name:"aidisheng"
+	// 	},
+	// 	body:"my first post!"
+	// }
+	var jsondata={
+		"person":{"name":"Alan"},
+		company:{"name":"red,Inc."}
+	};
+	//匹配json内容
+var html=template(jsondata);
+
+	//输入模板
+	$("body").html(html);
+
+	//handlebars的助释放法
+
+</script>
+
+
+
+</body>
+
+
+</html>

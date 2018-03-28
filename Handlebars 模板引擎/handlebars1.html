@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>handlebars路径的访问</title>
+<script  type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/handlebars.js/4.0.11/handlebars.min.js"></script>
+</head>
+<body>
+
+	<script type="text/x-handlebars-template" id="content">
+	<!-- <h1> {{author.id}}</h1>	
+	<h1> {{author.name}}</h1> -->
+	<!-- {{#with person}}
+		{{! 原生方法}}
+		<h1>{{../company.name}}</h1>
+		{{../person.name}}
+		{{/with}} -->
+</script>
+<script type="text/javascript">
+var tpl=$("#content").html();
+	(function($) {
+    var compiled = {};
+    $.fn.handlebars = function(template, data) {
+        if (template instanceof jQuery) {
+            template = $(template).html();
+        }
+    compiled[template] = Handlebars.compile(template);
+    this.html(compiled[template](data));
+    };
+})(jQuery);
+$('#content').handlebars($('#template'), { name: "Alan" });
+</script>
+
+
+
+</body>
+
+
+</html>
