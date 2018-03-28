@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Checked.html</title>
+     
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+     
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+    <style type="text/css">
+    .myClass{
+    
+    width :500px;
+    height:200px;
+    margin: 0px auto ;
+    }
+    </style>
+     
+     <script type="text/javascript">
+     function  CheckedForm(){
+     var userName=document.getElementById("userName");
+     var upassword=document.getElementById("upassword");
+     var repassword=document.getElementById("repassword");
+     var email=document.getElementById("email");
+     //非空验证
+        if(CheckedNull(userName.value)){
+        document.getElementById("userName_msg").innerHTML="<font color=\"red\">用户名不能为空</font>";
+        return false;
+        }
+        else{
+        document.getElementById("userName_msg").innerHTML="";
+        }
+        if(!CheckedLength(userName.value)){
+            document.getElementById("userName_msg").innerHTML="<font color=\"red\">密码不能少于6位</font>";
+            return false;
+        }
+         else{
+        document.getElementById("userName_msg").innerHTML="";
+        }
+         
+         
+        //密码非空验证
+        if(CheckedNull(upassword.value)){
+        document.getElementById("upassword_msg").innerHTML="<font color=\"red\">密码不能为空</font>";
+        return false;
+       }
+       else{
+       document.getElementById("upassword_msg").innerHTML="";
+       }
+       if(!CheckedLength(upassword.value)){
+            document.getElementById("upassword_msg").innerHTML="<font color=\"red\">密码不能少于6位</font>";
+            return false;
+        }
+       else{
+       document.getElementById("upassword_msg").innerHTML="";
+       }
+       //确认密码的非空验证确认的验证
+       if(CheckedNull(repassword.value)){
+        document.getElementById("repassword_msg").innerHTML="<font color=\"red\">确认密码不能为空</font>";
+        return false;
+       }
+       else{
+        document.getElementById("repassword_msg").innerHTML="";
+       }
+        if(CheckedNull(repassword.value)){
+        document.getElementById("repassword_msg").innerHTML="<font color=\"red\">确认密码不能少于6位</font>";
+        return false;
+       }
+       else{
+        document.getElementById("repassword_msg").innerHTML="";
+       }
+        if(upassword.value!=repassword.value){
+        document.getElementById("repassword_msg").innerHTML="<font color=\"red\">两次密码不一致</font>";
+        return false;
+       }
+       else{
+        document.getElementById("repassword_msg").innerHTML="";
+       }
+        
+         
+     //邮箱的非空验证以及格式
+        if(CheckedNull(email.value)){
+        document.getElementById("email_msg").innerHTML="<font color=\"red\">邮箱不能为空</font>";
+        return false;
+       }
+       else{
+       document.getElementById("email_msg").innerHTML="";
+       }
+       if(!CheckedEmail(email.value)){
+          document.getElementById("email_msg").innerHTML="<font color=\"red\">邮箱格式不正确</font>";
+          return false;
+       }
+       else{
+       document.getElementById("email_msg").innerHTML="";
+       }
+        
+      return true;
+   }     //验证长度
+         function CheckedLength(data){
+         var reg=/^\w{6,}$/;
+         return reg.test(data);
+         }
+         //邮箱验证
+         function CheckedEmail(data){
+         var reg=/^(\w)+@(\w)+(\.\w+)+$/;
+         return reg.test(data);
+         }
+         //非空验证
+         function CheckedNull(data){
+         var reg=/^\s*$/;
+         return reg.test(data); // 
+         }
+     
+   
+     
+    </script>
+  </head>
+          
+  <body>
+   
+  <div  >
+  <form action="#" method="get" onfocus="return CheckedForm()">
+  <!-- 文本编辑框 -->
+   <table >
+            <tr> 
+            <td >账户</td> 
+            <td ><input type="text" name="userName"   id="userName" onfocus="CheckedForm()" onblur="CheckedForm()"/></td>
+            <td ><span id="userName_msg"></span></td> 
+            </tr>
+   </table><br/>
+   <!-- 密码框的属性
+    -->
+    <table >
+            <tr > 
+            <td >密码</td> 
+            <td ><input type="password" name="upassword"  onfocus="CheckedForm()" onblur="CheckedForm()"  id="upassword" /></td> 
+            <td ><span id="upassword_msg"></span></td> 
+            </tr>
+   </table><br/>
+    <table >
+            <tr > 
+            <td >确认</td> 
+            <td ><input type="password" name="repassword"  onfocus="CheckedForm()" onblur="CheckedForm()"  id="repassword"/></td> 
+            <td ><span id="repassword_msg"></span></td> 
+            </tr>
+   </table><br/>
+   <!-- 性别的属性
+    -->
+    <table >
+            <tr > 
+            <td >性别</td> 
+            <td ><input type="radio" name="sex" value="boy" checked="true">男</input>
+            <input type="radio" name="sex" value="grils" >女</input>
+            </td> 
+            </tr>
+   </table><br/>
+    <!-- 爱好的属性
+    -->
+    <table >
+            <tr > 
+            <td >爱好</td> 
+            <td ><input type="checkbox" name="hobby" value="baskectball" checked="true">篮球</input>
+            <input type="checkbox" name="hobby" value="football" >足球</input>
+            <input type="checkbox" name="hobby" value="running" >跑步</input>
+            <input type="checkbox" name="hobby" value="swimming" >游泳</input>
+            </td> 
+            </tr>
+   </table><br/>
+   <!-- 上传的属性 -->
+    <table >
+            <tr > 
+            <td >上传</td> 
+            <td ><input type="file" name="upload" 　/>
+             
+            </td> 
+            </tr>
+   </table><br/>
+     <!-- 国籍下拉列表的属性
+    -->
+       <table > 
+                <tr > 
+                <td >国籍</td> 
+                <td ><select>
+                <option name="country" value="USA" selected="true">美国</option>
+                 <option name="country" value="CHINA"  >中国</option>
+                  <option name="country" value="UK">英国</option>
+                   <option name="country" value="JAPAN" >日本</option>
+                </select>
+                </td> 
+                </tr>
+                </table><br/>
+                 <!-- 邮箱下拉列表的属性
+       -->
+                <table >
+            <tr > 
+            <td>邮箱 </td> 
+            <td ><input type="text" name="email"  　onfocus="CheckedForm()" onblur="CheckedForm()" id="email" /></td> 
+            <td><span id="email_msg"></span> </td>
+            </tr>
+   </table><br/>
+   <!-- 提交和重置按钮的功能-->
+   <table>
+       <tr>
+            <td>备注</td>
+            <td><textarea name="tex" cols="50" rows="5"></textarea></td>
+       </tr>
+   </table><br/>
+   <table > 
+                <tr > 
+                <td ><input type="submit" name="post"value="注册"  />
+                     <input type="reset"  name="post"value="取消"/>
+                </td> 
+                </tr >
+              </table><br/>
+            <table > 
+                <tr > 
+                <td >
+                 <input type="image" name="onsubmit"  src="signup.gif" onblur="CheckedForm()" >
+                </td> 
+                </tr >
+              </table><br/>  
+  </form>
+  </div>
+ </body>
+</html>

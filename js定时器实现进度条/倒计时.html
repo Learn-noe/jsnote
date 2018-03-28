@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>见缝插针</title>
+    <style>
+        canvas {
+            outline: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+<canvas width="400" height="500"></canvas>
+</body>
+<script>
+    var canvas = document.getElementsByTagName("canvas")[0];
+    var cxt = canvas.getContext("2d");
+    var
+        int = 0,
+        bigx = canvas.width / 2,
+        bigy = canvas.height / 3.5,
+        guanqia = 1,
+        gunzi = [],
+        chushigunzi=3,
+        yuBeiQiu = 10,
+        zhuansu=10,
+        diZeng=1;
+    function guanqiashezhi() {
+        switch (guanqia){
+            case 1:
+                break;
+            case 2:
+                chushigunzi=4;
+                yuBeiQiu = 10;
+                zhuansu=15;
+                diZeng=-1;
+                break;
+            case 3:
+                chushigunzi=1;
+                yuBeiQiu = 15;
+                zhuansu=10;
+                diZeng=1;
+                break;
+            case 4:
+                chushigunzi=10;
+                yuBeiQiu = 5;
+                zhuansu=10;
+                diZeng=1;
+                break;
+            case 5:
+                chushigunzi=15;
+                yuBeiQiu = 3;
+                zhuansu=10;
+                diZeng=-1;
+                break;
+            case 6:
+                chushigunzi=2;
+                yuBeiQiu = 20;
+                zhuansu=10;
+                diZeng=1;
+                break;
+            case 7:
+                chushigunzi=8;
+                yuBeiQiu = 10;
+                zhuansu=15;
+                diZeng=-1;
+                break;
+            case 8:
+                chushigunzi=0;
+                yuBeiQiu = 20;
+                zhuansu=15;
+                diZeng=1;
+                break;
+            case 9:
+                chushigunzi=10;
+                yuBeiQiu = 10;
+                zhuansu=10;
+                diZeng=-1;
+                break;
+            case 10:
+                chushigunzi=1;
+                yuBeiQiu = 15;
+                zhuansu=5;
+                diZeng=1;
+                break;
+            default :
+                alert("恭喜完成最后一关，请从新开始挑战.");
+                guanqia=1;
+                chushihua();
+                break;
+        }
+    }
+    chushihua();
+    function chushihua() {
+        guanqiashezhi();
+        gunzi.length=0;
+        for (var i = 0; i < chushigunzi; i++){
+            gunzi[i]=angle(i * 360 / chushigunzi);
+        }
+    }
+    (function main() {
+        //开始画圆
+
+        cxt.clearRect(0, 0, canvas.width, canvas.height);
+        cxt.beginPath();
+        cxt.fillStyle="#000";
+        cxt.arc(bigx,bigy, 40, 0, angle(360));
+        cxt.fill();
+        cxt.stroke();
+        cxt.closePath();
+        //结束画圆
+
+        //绘制初始针
+        huaXian(gunzi, int);
+        denDaiYuan(yuBeiQiu);
+        if(int>=360){
+            int=0;
+        }
+        int+=diZeng;
+        //绘制关卡数
+        cxt.beginPath();
+        cxt.font="51px Arial";
+//		cxt.textBaseline="";
+//		cxt.textAlign="cenant";
+        cxt.fillStyle="#fff";
+        cxt.fillText(guanqia>9?guanqia:"0"+guanqia,173,160);
+        cxt.closePath();
+        setTimeout(main, zhuansu);
+    })();
+    document.onclick=function () {
+        if (yuBeiQiu){
+            for(var i=0;i<gunzi.length;i++){
+                var juli=fanAngle(Math.abs(gunzi[i]))-int;
+                if(juli>=0&&juli<=8||juli<=0&&juli>=-8){
+                    alert("挑战失败,从新开始游戏");
+                    chushihua();
+                    return;
+                }
+            }
+            if(yuBeiQiu==1){
+                alert("挑战成功，开始下一关,");
+                guanqia++;
+                chushihua();
+                return;
+            }
+            gunzi[gunzi.length]=angle(-int);
+            yuBeiQiu--;
+
+        }
+
+    };
+    function huaXian(arr, deg) {
+        for (var i = 0; i < arr.length; i++) {
+            cxt.fillStyle="#000";
+            cxt.save();//保存中心点
+            cxt.translate(bigx, bigy);
+            cxt.rotate(arr[i] + angle(deg));
+            cxt.beginPath();
+            cxt.moveTo(0, 0);
+            cxt.lineTo(0, 120);
+            cxt.stroke();
+            cxt.closePath();
+            //开始画圆
+            cxt.beginPath();
+            cxt.arc(0, 120, 8, 0, angle(360));
+            cxt.fill();
+            cxt.stroke();
+            cxt.closePath();
+            //结束画圆
+            cxt.restore();
+        }
+    }
+    function denDaiYuan(int) {
+        for (var i=0;i<int;i++){
+            //开始画圆
+            cxt.beginPath();
+            cxt.arc(bigx,bigy*2.1+i*18, 8, 0, angle(360));
+            cxt.fill();
+            cxt.stroke();
+            cxt.closePath();
+            //结束画圆
+        }
+    }
+    function angle(deg) {
+        return deg * (Math.PI / 180);
+    }
+    function fanAngle(deg) {
+        return Math.floor(deg /Math.PI*180);
+    }
+</script>
+</html>
